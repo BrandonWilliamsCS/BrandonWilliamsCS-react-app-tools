@@ -5,82 +5,6 @@ import { ScreenRouteSpecification } from "./ScreenRouteSpecification";
 import { ScreenRouteOutlet } from "./ScreenRouteOutlet";
 
 describe("ScreenRouteOutlet", () => {
-  it("renders nothing when location fails to match", () => {
-    // Arrange
-    const content = "ScreenContent";
-    const spec: ScreenRouteSpecification = {
-      content,
-      pathMatch: "/TestPage",
-      buildPath: () => "TestPage",
-    };
-    const notFoundContent = "NotFoundContent";
-    const initialLocation = "/OtherPage";
-
-    // Act
-    render(
-      <ScreenRouteOutlet
-        specification={spec}
-        notFoundContent={notFoundContent}
-      />,
-      {
-        wrapper: buildTestRouterWrapper({ initialLocation }),
-      },
-    );
-
-    // Assert
-    expect(screen.queryByText(content)).not.toBeInTheDocument();
-  });
-  it("renders spec content when location matches path", () => {
-    // Arrange
-    const content = "ScreenContent";
-    const spec: ScreenRouteSpecification = {
-      content,
-      pathMatch: "/TestPage",
-      buildPath: () => "TestPage",
-    };
-    const notFoundContent = "NotFoundContent";
-    const initialLocation = "/TestPage";
-
-    // Act
-    render(
-      <ScreenRouteOutlet
-        specification={spec}
-        notFoundContent={notFoundContent}
-      />,
-      {
-        wrapper: buildTestRouterWrapper({ initialLocation }),
-      },
-    );
-
-    // Assert
-    expect(screen.queryByText(content)).toBeInTheDocument();
-  });
-  it("honors inexact match when specified", () => {
-    // Arrange
-    const content = "ScreenContent";
-    const spec: ScreenRouteSpecification = {
-      content,
-      pathMatch: "/TestPage",
-      buildPath: () => "TestPage",
-      allowInexactMatch: true,
-    };
-    const notFoundContent = "NotFoundContent";
-    const initialLocation = "/TestPage/AndBeyond";
-
-    // Act
-    render(
-      <ScreenRouteOutlet
-        specification={spec}
-        notFoundContent={notFoundContent}
-      />,
-      {
-        wrapper: buildTestRouterWrapper({ initialLocation }),
-      },
-    );
-
-    // Assert
-    expect(screen.queryByText(content)).toBeInTheDocument();
-  });
   it("renders content function results based on merged route params", () => {
     // Arrange
     const spec: ScreenRouteSpecification<string> = {
@@ -100,7 +24,10 @@ describe("ScreenRouteOutlet", () => {
         notFoundContent={notFoundContent}
       />,
       {
-        wrapper: buildTestRouterWrapper({ initialLocation }),
+        wrapper: buildTestRouterWrapper({
+          initialLocation,
+          pathMatch: spec.pathMatch,
+        }),
       },
     );
 

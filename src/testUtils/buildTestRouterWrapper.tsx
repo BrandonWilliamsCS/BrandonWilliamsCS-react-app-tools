@@ -12,7 +12,7 @@ export function buildTestRouterWrapper(options: TestRouterWrapperOptions) {
           return undefined;
         }}
       />
-      {children}
+      <Route path={options.pathMatch ?? "*"}>{children}</Route>
     </MemoryRouter>
   );
 }
@@ -20,4 +20,5 @@ export function buildTestRouterWrapper(options: TestRouterWrapperOptions) {
 export interface TestRouterWrapperOptions {
   initialLocation?: string;
   onLocationChange?: (location: Location) => void;
+  pathMatch?: string;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ScreenRouteSpecification } from "./ScreenRouteSpecification";
 import { useQueryParams } from "./useQueryParams";
 
@@ -9,23 +9,6 @@ export interface ScreenRouteOutletProps<T> {
 }
 
 export function ScreenRouteOutlet<T>({
-  notFoundContent,
-  specification,
-}: ScreenRouteOutletProps<T>) {
-  return (
-    <Route
-      path={specification.pathMatch}
-      exact={!specification.allowInexactMatch}
-    >
-      <ScreenRouteOutletContent
-        notFoundContent={notFoundContent}
-        specification={specification}
-      />
-    </Route>
-  );
-}
-
-function ScreenRouteOutletContent<T>({
   notFoundContent,
   specification,
 }: ScreenRouteOutletProps<T>) {

@@ -6,7 +6,7 @@ import { ScreenRouteSpecification } from "./ScreenRouteSpecification";
 export interface ScreenRouterProps {
   notFoundContent: React.ReactNode;
   rootRedirectTarget?: ScreenRouteSpecification;
-  specifications: ScreenRouteSpecification[];
+  specifications: ScreenRouteSpecification<any>[];
 }
 
 export const ScreenRouter: React.FC<ScreenRouterProps> = ({
@@ -22,11 +22,16 @@ export const ScreenRouter: React.FC<ScreenRouterProps> = ({
         </Route>
       )}
       {specifications.map((specification) => (
-        <ScreenRouteOutlet
+        <Route
           key={specification.pathMatch}
-          specification={specification}
-          notFoundContent={notFoundContent}
-        />
+          path={specification.pathMatch}
+          exact={!specification.allowInexactMatch}
+        >
+          <ScreenRouteOutlet
+            specification={specification}
+            notFoundContent={notFoundContent}
+          />
+        </Route>
       ))}
       <Route path="*">{notFoundContent}</Route>
     </Switch>
