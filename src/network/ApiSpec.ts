@@ -1,7 +1,6 @@
 export interface ApiSpec<Q, R> {
   method: "get" | "post";
-  path: string | ((requestData: Q) => string);
-  bodyDataTransform?: (requestData: Q) => any;
+  path: string;
   unathenticated?: boolean;
   blobResponse?: boolean;
 }

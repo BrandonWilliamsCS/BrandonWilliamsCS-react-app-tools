@@ -19,15 +19,10 @@ export class AxiosApiService implements ApiService {
   public async callApi<R>(spec: ApiSpec<void, R>, data?: void): Promise<R>;
   public async callApi<Q, R>(spec: ApiSpec<Q, R>, data: Q): Promise<R>;
   public async callApi<Q, R>(spec: ApiSpec<Q, R>, data: Q): Promise<R> {
-    const resolvedPath =
-      typeof spec.path === "function" ? spec.path(data) : spec.path;
-    const bodyData = spec.bodyDataTransform
-      ? spec.bodyDataTransform(data)
-      : data;
     const axiosResponse = await this.baseRequest<Q, R>(
-      resolvedPath,
+      spec.path,
       spec.method,
-      bodyData,
+      data,
       spec.blobResponse ? "blob" : undefined,
     );
 

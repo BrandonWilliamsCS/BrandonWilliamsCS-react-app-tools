@@ -46,53 +46,6 @@ describe("AxiosApiService", () => {
     );
   });
 
-  it("uses request data to compute the url when spec provides path function", async () => {
-    // Arrange
-    const spec: ApiSpec<TestObject, void> = {
-      method: "post",
-      path: (obj) => `/${obj.key}`,
-    };
-    const data: TestObject = { key: "value" };
-    const service = new AxiosApiService(baseUrl);
-    const requestListener = jest.fn();
-    interceptRequests(200, undefined, requestListener);
-
-    // Act
-    await service.callApi(spec, data);
-
-    // Assert
-    expect(requestListener).toHaveBeenLastCalledWith(
-      expect.anything(),
-      `${baseUrl}/value`,
-      expect.anything(),
-      expect.anything(),
-    );
-  });
-
-  it("transforms requst body before send when spec provides bodyDataTransform", async () => {
-    // Arrange
-    const spec: ApiSpec<TestObject, void> = {
-      method: "post",
-      path: "/endpoint",
-      bodyDataTransform: (obj) => ({ upperKey: obj.key.toUpperCase() }),
-    };
-    const data: TestObject = { key: "value" };
-    const service = new AxiosApiService(baseUrl);
-    const requestListener = jest.fn();
-    interceptRequests(200, undefined, requestListener);
-
-    // Act
-    await service.callApi(spec, data);
-
-    // Assert
-    expect(requestListener).toHaveBeenLastCalledWith(
-      expect.anything(),
-      expect.anything(),
-      { upperKey: "VALUE" },
-      expect.anything(),
-    );
-  });
-
   describe("returned promise", () => {
     it("resolves on 200-level code", () => {
       // Arrange
